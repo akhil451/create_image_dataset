@@ -8,7 +8,7 @@ from utils.file_utils import check_search_file,get_classes_to_download
 from gooey import Gooey
 from pexels.pexels import download_pexel_images
 
-# @Gooey        
+# @Gooey()     
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()

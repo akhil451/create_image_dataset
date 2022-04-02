@@ -4,7 +4,7 @@ import json
 import urllib.request
 import os
 import itertools
-# from ignore import authcode
+from ignore import authcode
 
 def get_image_links(category:str,n_images:int,authcode:str):
     my_headers = {'Authorization' : authcode}
@@ -35,7 +35,9 @@ def download_pexel_images(auth_code:str,output_loc:str,n_images_per_class:int,ca
     all_image_links = []
     try:
         for category in categories:
+            
             image_links =  get_image_links(category,n_images_per_class,auth_code)
+            
             all_image_links.append(image_links)
         flat_list = list(itertools.chain(*all_image_links))
         for image_link in flat_list:
@@ -43,7 +45,7 @@ def download_pexel_images(auth_code:str,output_loc:str,n_images_per_class:int,ca
     except Exception as error:
         print(error)
 
-# if __name__ == "__main__":
-    # download_pexel_images(auth_code=authcode,output_loc="temp",n_images_per_class=10,categories=['car','shoes'])
+if __name__ == "__main__":
+    download_pexel_images(auth_code=authcode,output_loc="temp",n_images_per_class=10,categories=['car','shoes'])
 
 
