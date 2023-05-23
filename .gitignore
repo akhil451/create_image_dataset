@@ -1,8 +1,8 @@
 # Project-Specific
 temp/
 pexels/ignore.py
-
-
+settings.py
+temp/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
