@@ -4,6 +4,7 @@ import urllib
 import imghdr
 import posixpath
 import re
+from mpire import WorkerPool
 
 '''
 Python API to download images from Bing.
@@ -20,7 +21,7 @@ class Bing:
         self.filter = filter
         self.verbose = verbose
         self.seen = set()
-        self.page_counter=0
+        self.page_counter = 0
         # Validate and set the limit and timeout values
         assert type(limit) == int, "limit must be an integer"
         self.limit = limit
@@ -93,7 +94,8 @@ class Bing:
             # Parse the page source and download images
             request_url = 'https://www.bing.com/images/async?q=' + urllib.parse.quote_plus(self.query) \
                           + '&first=' + str(self.page_counter) + '&count=' + str(self.limit) \
-                          + '&adlt=' + self.adult + '&qft=' + ('' if self.filter is None else self.get_filter(self.filter))
+                          + '&adlt=' + self.adult + '&qft=' + (
+                                          '' if self.filter is None else self.get_filter(self.filter))
             request = urllib.request.Request(request_url, None, headers=self.headers)
             response = urllib.request.urlopen(request)
             html = response.read().decode('utf8')
@@ -105,10 +107,14 @@ class Bing:
                 print("[%] Indexed {} Images on Page {}.".format(len(links), self.page_counter + 1))
                 print("\n===============================================\n")
 
-            for link in links:
-                if self.download_count < self.limit and link not in self.seen:
-                    self.seen.add(link)
-                    self.download_image(link)
+            # Use multiprocessing for downloading images
+            with WorkerPool(processes=4) as pool:  # Set the number of processes as per your requirement
+                pool.map(self.download_image, links)
 
             self.page_counter += 1
         print("\n\n[%] Done. Downloaded {} images.".format(self.download_count))
+
+
+if __name__ == "__main__":
+    bing = Bing(query="your_query", limit=100, output_dir=Path("output"), adult="Off", timeout=10, verbose=True)
+    bing.run()

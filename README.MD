@@ -33,6 +33,21 @@ This application includes code adapted from the [bing_image_downloader](https://
 
 ## Usage
 
+### Executable 
+
+1. Download the exe file from dist folder and run 
+
+2. The graphical user interface (GUI) will be displayed, allowing you to configure the image dataset creation.
+
+   - Select the image sources (Pexels and/or Bing) from the list.
+   - Enter the categories of images you want to download, separated by commas.
+   - Specify the number of images to download per class/category.
+   - Choose the output location where the dataset will be saved.
+
+3. Click the "Start" or "Create Dataset" button to initiate the image download process.
+
+### Code
+
 1. Open a terminal or command prompt.
 
 2. Navigate to the directory where the source code files are located.
@@ -56,15 +71,16 @@ This application includes code adapted from the [bing_image_downloader](https://
 ## TO DO 
 
 ### 1. Support for folloeing Image sources:
-- Instagram (Coming Soon)
-
+- Instagram
+- google search
 ### 2. multiprocessing
 ### 3.metadata collection
+### 4. Add modules to remove duplicate images
 
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or want to add new features, feel free to submit a pull request.
+Contribuxtions are welcome! If you find any issues or want to add new features, feel free to submit a pull request.
 
 ## License
 
