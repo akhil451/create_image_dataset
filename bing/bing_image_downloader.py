@@ -4,7 +4,15 @@ import urllib
 import imghdr
 import posixpath
 import re
+import itertools
+import uuid
+import os
 from mpire import WorkerPool
+import multiprocessing
+from multiprocessing import Value
+
+n_jobs= multiprocessing.cpu_count()*2
+
 
 '''
 Python API to download images from Bing.
@@ -12,9 +20,10 @@ Author: Guru Prasad (g.gaurav541@gmail.com)
 '''
 
 class Bing:
-    def __init__(self, query, limit, output_dir, adult, timeout, filter='', verbose=True):
+    def __init__(self, query, limit_, output_dir, adult, timeout, filter='', verbose=True):
         # Initialize the Bing class
         self.download_count = 0
+        self.limit = limit_ 
         self.query = query
         self.output_dir = output_dir
         self.adult = adult
@@ -23,8 +32,6 @@ class Bing:
         self.seen = set()
         self.page_counter = 0
         # Validate and set the limit and timeout values
-        assert type(limit) == int, "limit must be an integer"
-        self.limit = limit
         assert type(timeout) == int, "timeout must be an integer"
         self.timeout = timeout
 
@@ -66,29 +73,34 @@ class Bing:
 
     def download_image(self, link):
         # Download the image from the provided link
-        self.download_count += 1
         try:
-            path = urllib.parse.urlsplit(link).path
-            filename = posixpath.basename(path).split('?')[0]
-            file_type = filename.split(".")[-1]
-            if file_type.lower() not in ["jpe", "jpeg", "jfif", "exif", "tiff", "gif", "bmp", "png", "webp", "jpg"]:
-                file_type = "jpg"
+            self.download_count+=1
+            if int(self.download_count)<self.limit:
+                self.download_count += 1
+                path = urllib.parse.urlsplit(link).path
+                filename = posixpath.basename(path).split('?')[0]
+                file_type = filename.split(".")[-1]
+                if file_type.lower() not in ["jpe", "jpeg", "jfif", "exif", "tiff", "gif", "bmp", "png", "webp", "jpg"]:
+                    file_type = "jpg"
 
-            if self.verbose:
-                print("[%] Downloading Image #{} from {}".format(self.download_count, link))
+                if self.verbose:
+                    print("[%] Downloading Image #{} from {}".format(self.download_count, link))
 
-            self.save_image(link, self.output_dir.joinpath("bing_{}.{}".format(
-                str(self.download_count), file_type)))
-            if self.verbose:
-                print("[%] File Downloaded !\n")
-
+                self.save_image(link, self.output_dir.joinpath("bing_{}.{}".format(
+                    str(uuid.uuid4()), file_type)))
+                if self.verbose:
+                    print("[%] File Downloaded !\n")
+            else:
+                pass
         except Exception as e:
             self.download_count -= 1
             print("[!] Issue getting: {}\n[!] Error:: {}".format(link, e))
 
     def run(self):
         # Run the image download process
-        while self.download_count < self.limit:
+        # total_links =  []
+        n_files_present = len(os.listdir(self.output_dir))
+        while self.download_count<self.limit:
             if self.verbose:
                 print('\n\n[!!] Indexing page: {}\n'.format(self.page_counter + 1))
             # Parse the page source and download images
@@ -106,13 +118,20 @@ class Bing:
             if self.verbose:
                 print("[%] Indexed {} Images on Page {}.".format(len(links), self.page_counter + 1))
                 print("\n===============================================\n")
-
-            # Use multiprocessing for downloading images
-            with WorkerPool(processes=4) as pool:  # Set the number of processes as per your requirement
-                pool.map(self.download_image, links)
-
+            # total_links.append(links)
+            # total_links= list(itertools.chain(*total_links))
+            # with WorkerPool(n_jobs=n_jobs) as pool:  # Set the number of processes as per your requirement
+            #     pool.map(self.download_image,links)
+            for link in links:
+                self.download_image(link)
             self.page_counter += 1
-        print("\n\n[%] Done. Downloaded {} images.".format(self.download_count))
+        
+        # total_links= list(itertools.chain(*total_links))
+
+        # Use multiprocessing for downloading images
+        # with WorkerPool(n_jobs=n_jobs) as pool:  # Set the number of processes as per your requirement
+        #         pool.map(self.download_image, total_links)
+        # print("\n\n[%] Done. Downloaded {} images.".format(total_links))
 
 
 if __name__ == "__main__":

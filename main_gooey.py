@@ -17,10 +17,6 @@ from bing.bing import bing_downloader
 from settings import pexels_auth_code,pixabay_api_code
 from charset_normalizer import md__mypyc
     
-# nonbuffered_stdout = os.fdopen(sys.stdout.fileno(), "w", 0)
-# sys.stdout = nonbuffered_stdout
-
-
 @Gooey()
 def main():
     parser = GooeyParser(description="CREATE IMAGE DATASET")
@@ -43,7 +39,7 @@ def main():
     parser.add_argument("OUTPUT_LOCATION", help="test", widget="DirChooser")
     args = parser.parse_args()
     categories = args.CATEGORIES.strip(" ").split(",")
-    images_per_class =  args.IMAGES_PER_CLASS//len(args.SOURCES)
+    images_per_class =  int(args.IMAGES_PER_CLASS)//len(args.SOURCES)
     if not os.path.exists(args.OUTPUT_LOCATION):
         os.makedirs(args.OUTPUT_LOCATION)
     if "Pexels" in args.SOURCES:

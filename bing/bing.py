@@ -3,11 +3,14 @@ import os, sys
 import shutil
 from pathlib import Path
 from utils.file_utils import create_folder
+import mpire 
+import multiprocessing
 try:
     from bing_image_downloader import Bing
 except ImportError:  # Python 3
     from .bing_image_downloader import Bing
 
+n_jobs= multiprocessing.cpu_count()*2
 
 def download(query, limit=100, output_dir='dataset', adult_filter_off=True, 
 force_replace=False, timeout=60, filter="", verbose=True):
