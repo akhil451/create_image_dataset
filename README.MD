@@ -8,15 +8,13 @@ This is a Python application that allows you to create an image dataset by downl
 
 - Python 3.x
 - Required Python packages (can be installed via pip):
-  - Gooey
-  - requests
+  - use requirements.txt
 
 ## Installation
 
 1. Clone the repository or download the source code files.
 
 2. Install the required packages using pip:
-
    ```shell
    pip install gooey requests
    ```
@@ -55,7 +53,7 @@ This application includes code adapted from the [bing_image_downloader](https://
 3. Run the application by executing the following command:
 
    ```shell
-   python application.py
+   python main_gooey.py
    ```
 4. The graphical user interface (GUI) will be displayed, allowing you to configure the image dataset creation.
 
