@@ -4,6 +4,9 @@
 
 This is a Python application that allows you to create an image dataset by downloading images from different sources, such as Pexels and Bing. The application provides a user-friendly graphical interface for ease of use.
 
+![image](https://raw.githubusercontent.com/akhil451/create_image_dataset/main/images/image.png)
+
+
 ## Prerequisites
 
 - Python 3.x
@@ -37,7 +40,6 @@ This application includes code adapted from the [bing_image_downloader](https://
 
 2. The graphical user interface (GUI) will be displayed, allowing you to configure the image dataset creation.
 
-   - Select the image sources (Pexels and/or Bing) from the list.
    - Enter the categories of images you want to download, separated by commas.
    - Specify the number of images to download per class/category.
    - Choose the output location where the dataset will be saved.
@@ -57,7 +59,6 @@ This application includes code adapted from the [bing_image_downloader](https://
    ```
 4. The graphical user interface (GUI) will be displayed, allowing you to configure the image dataset creation.
 
-   - Select the image sources (Pexels and/or Bing) from the list.
    - Enter the categories of images you want to download, separated by commas.
    - Specify the number of images to download per class/category.
    - Choose the output location where the dataset will be saved.
@@ -66,19 +67,32 @@ This application includes code adapted from the [bing_image_downloader](https://
 
 6. The application will download the images from the selected sources and save them in the specified output location. The images will be organized into folders based on their categories.
 
+
+## BUILD EXE
+```
+pyinstaller build.spec
+```
+
 ## TO DO 
 
 ### 1. Support for folloeing Image sources:
 - Instagram
 - google search
-### 2. multiprocessing
 ### 3.metadata collection
 ### 4. Add modules to remove duplicate images
 
 
 ## Contributing
 
-Contribuxtions are welcome! If you find any issues or want to add new features, feel free to submit a pull request.
+Contributions are welcome! If you find any issues or want to add new features, feel free to submit a pull request.
+
+## Note : 
+Support for Pixabay and pexels has been removed for now as they are limited by their APIs. They can be activated by uncommenting following lines:
+
+main_goeey.py - 14,15,23-30,42,47-54,62,63
+
+In settings.py, you would need to add values for pexels_auth_code and pixabay_auth_code
+
 
 ## License
 

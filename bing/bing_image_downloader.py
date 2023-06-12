@@ -100,7 +100,7 @@ class Bing:
         # Run the image download process
         # total_links =  []
         n_files_present = len(os.listdir(self.output_dir))
-        while self.download_count<self.limit:
+        while n_files_present<self.limit:
             if self.verbose:
                 print('\n\n[!!] Indexing page: {}\n'.format(self.page_counter + 1))
             # Parse the page source and download images
@@ -125,7 +125,7 @@ class Bing:
             for link in links:
                 self.download_image(link)
             self.page_counter += 1
-        
+        n_files_present = len(os.listdir(self.output_dir))        
         # total_links= list(itertools.chain(*total_links))
 
         # Use multiprocessing for downloading images
