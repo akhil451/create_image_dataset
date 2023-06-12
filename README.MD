@@ -1,10 +1,8 @@
+# Image Dataset Creation Tool
+![image](https://github.com/akhil451/create_image_dataset/blob/main/images/image.png?raw=true)
 
 ```
-# Image Dataset Creation Tool
-
 This is a Python application that allows you to create an image dataset by downloading images from different sources, such as Pexels and Bing. The application provides a user-friendly graphical interface for ease of use.
-
-![image](https://raw.githubusercontent.com/akhil451/create_image_dataset/main/images/image.png)
 
 
 ## Prerequisites
@@ -18,15 +16,10 @@ This is a Python application that allows you to create an image dataset by downl
 1. Clone the repository or download the source code files.
 
 2. Install the required packages using pip:
-   ```shell
-   pip install gooey requests
-   ```
+   
+   pip install -r requirements.txt 
 
-3. Obtain the necessary API authentication code for Pexels:
-   - Sign up for an account on the Pexels website (https://www.pexels.com/).
-   - Generate an API key in your account settings.
-   - Copy the generated authentication code.
-   - Open the `settings.py` file and replace `pexels_auth_code` with your authentication code.
+```
 
 ## Acknowledgements
 
