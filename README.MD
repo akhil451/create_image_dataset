@@ -11,15 +11,8 @@ This is a Python application that allows you to create an image dataset by downl
 - Required Python packages (can be installed via pip):
   - use requirements.txt
 
-## Installation
 
-1. Clone the repository or download the source code files.
-
-2. Install the required packages using pip:
-   
-   pip install -r requirements.txt 
-
-```
+s```
 
 ## Acknowledgements
 
